@@ -3,8 +3,9 @@ import { DropzoneAreaBase, FileObject } from 'react-mui-dropzone'
 
 const ImageDropZone = () => {
   const [files, setFiles] = useState<FileObject[]>([])
-  const handleAdd = (files: FileObject[]) => {
-    setFiles([...files])
+  const handleAdd = (newFiles: FileObject[]) => {
+    const newFileList = files.concat(newFiles)
+    setFiles(newFileList)
     console.log(files)
   }
   const handleDelete = (deleted: FileObject) => {
