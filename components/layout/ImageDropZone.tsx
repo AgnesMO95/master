@@ -1,10 +1,5 @@
 import { useState } from 'react'
-import {
-  DropzoneAreaBase,
-  DropzoneDialogBase,
-  FileObject,
-} from 'react-mui-dropzone'
-import { DropzoneDialog } from 'react-mui-dropzone'
+import { DropzoneDialogBase, FileObject } from 'react-mui-dropzone'
 
 const ImageDropZone = () => {
   const [files, setFiles] = useState<FileObject[]>([])
