@@ -19,6 +19,7 @@ const ImageDropZone = () => {
       onDelete={handleDelete}
       filesLimit={Infinity}
       maxFileSize={2000000000}
+      acceptedFiles={['image/*']}
     />
   )
 }
