@@ -1,0 +1,1 @@
+Installere requirements og virtual environment 
