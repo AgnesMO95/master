@@ -101,8 +101,16 @@ def get_predection(image,net,LABELS,COLORS):
     # boxes
     idxs = cv2.dnn.NMSBoxes(boxes, confidences, confthres,
                             nmsthres)
+
+    #empty dictionary
+    outputs={}
     # ensure at least one detection exists
     if len(idxs) > 0:
+        #create key for the dictionary 
+        outputs['detections'] = {}
+        #another key with labels inside the nested dictionary
+        outputs['detections']['labels']=[]
+
         # loop over the indexes we are keeping
         for i in idxs.flatten():
             # extract the bounding box coordinates
@@ -117,20 +125,22 @@ def get_predection(image,net,LABELS,COLORS):
             # print(classIDs)
             # cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_DUPLEX, 0.6, color, 1) #cv2.FONT_HERSHEY_SIMPLEX
 
-            #Getting the result in JSON format
-            print(LABELS[classIDs[i]])
-            print(confidences[i])
-            x = boxes[i][0]
-            y = boxes[i][1]
-            w = boxes[i][2]
-            h = boxes[i][3]
-            print(x,y, w, h)
-            
-    return image
+             #Getting the result in JSON format
+            detection={}
+            detection['label'] = LABELS[classIDs[i]]
+            detection['confidence'] = confidences[i]
+            detection['x'] = boxes[i][0]
+            detection['y'] = boxes[i][1]
+            detection['w'] = boxes[i][2]
+            detection['h'] = boxes[i][3]
+            outputs['detections']['labels'].append(detection)
+    else:
+        outputs['detections'] ='No object detected'      
+    return outputs #image
 
 def runModel(image):
     # load our input image and grab its spatial dimensions
-    # image = cv2.imread(img)
+    # image = cv2.imread(image)
     labelsPath="./obj.names"
     cfgpath="cfg/yolov4-custom.cfg"
     wpath="custom.weights"
@@ -144,5 +154,6 @@ def runModel(image):
 
 image = cv2.imread('images/121.png')
 res = runModel(image)
+print(res)
 # cv2.imshow('Image', res)
 # cv2.waitKey(0)
