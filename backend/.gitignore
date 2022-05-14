@@ -1,5 +1,5 @@
 #custom weights for model 
-yolov4-darknet/custom.weights
+yolov4darknet/custom.weights
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
