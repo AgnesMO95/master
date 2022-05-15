@@ -6,13 +6,13 @@ import os
 
 confthres=0.25
 nmsthres=0.5
-yolo_path="./"
+yolo_path=".\yolov4darknet"
 
 def get_labels(labels_path):
     # load the COCO class labels our YOLO model was trained on
     #labelsPath = os.path.sep.join([yolo_path, "yolo_v3/coco.names"])
-    lpath=os.path.sep.join([yolo_path, labels_path])
-    LABELS = open(lpath).read().strip().split("\n")
+    #lpath=os.path.sep.join([yolo_path, labels_path])
+    LABELS = open(labels_path).read().strip().split("\n")
     return LABELS
 
 def get_colors(LABELS):
@@ -138,22 +138,24 @@ def get_predection(image,net,LABELS,COLORS):
         outputs['detections'] ='No object detected'      
     return outputs #image
 
-def runModel(image):
+def runModel(img):
     # load our input image and grab its spatial dimensions
-    # image = cv2.imread(image)
-    labelsPath="./obj.names"
-    cfgpath="cfg/yolov4-custom.cfg"
-    wpath="custom.weights"
+    print(img)
+    image = cv2.imread(img)
+    print(image)
+    labelsPath="C:/Users/agnes/var-master/webapp/oc_counter/backend/yolov4darknet/obj.names"
+    cfgpath="C:/Users/agnes/var-master/webapp/oc_counter/backend/yolov4darknet/cfg/yolov4_custom.cfg"
+    wpath="C:/Users/agnes/var-master/webapp/oc_counter/backend/yolov4darknet/custom.weights"
     Lables=get_labels(labelsPath)
-    CFG=get_config(cfgpath)
-    Weights=get_weights(wpath)
-    nets=load_model(CFG,Weights)
+    #CFG=get_config(cfgpath)
+    #Weights=get_weights(wpath)
+    nets=load_model(cfgpath,wpath)
     Colors=get_colors(Lables)
     res=get_predection(image,nets,Lables,Colors)
     return res
 
-image = cv2.imread('images/121.png')
-res = runModel(image)
-print(res)
+# image = cv2.imread('images/121.png')
+# res = runModel(image)
+# print(res)
 # cv2.imshow('Image', res)
 # cv2.waitKey(0)
