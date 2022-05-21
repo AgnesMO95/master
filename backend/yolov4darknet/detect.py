@@ -107,9 +107,9 @@ def get_predection(image,net,LABELS,COLORS):
     # ensure at least one detection exists
     if len(idxs) > 0:
         #create key for the dictionary 
-        outputs['detections'] = {}
+        outputs['detections'] = []
         #another key with labels inside the nested dictionary
-        outputs['detections']['labels']=[]
+        #outputs['detections']['labels']=[]
 
         # loop over the indexes we are keeping
         for i in idxs.flatten():
@@ -133,16 +133,18 @@ def get_predection(image,net,LABELS,COLORS):
             detection['y'] = boxes[i][1]
             detection['w'] = boxes[i][2]
             detection['h'] = boxes[i][3]
-            outputs['detections']['labels'].append(detection)
+            #outputs['detections']['labels'].append(detection)
+            outputs['detections'].append(detection)
+            
     else:
-        outputs['detections'] ='No object detected'      
+        outputs['detections'].append('No object detected' )     
     return outputs #image
 
 def runModel(img):
     # load our input image and grab its spatial dimensions
-    print(img)
+    #print(img)
     image = cv2.imread(img)
-    print(image)
+    #print(image)
     labelsPath="C:/Users/agnes/var-master/webapp/oc_counter/backend/yolov4darknet/obj.names"
     cfgpath="C:/Users/agnes/var-master/webapp/oc_counter/backend/yolov4darknet/cfg/yolov4_custom.cfg"
     wpath="C:/Users/agnes/var-master/webapp/oc_counter/backend/yolov4darknet/custom.weights"
@@ -152,6 +154,7 @@ def runModel(img):
     nets=load_model(cfgpath,wpath)
     Colors=get_colors(Lables)
     res=get_predection(image,nets,Lables,Colors)
+    print(res.get('detections'))
     return res
 
 # image = cv2.imread('images/121.png')
