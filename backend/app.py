@@ -11,7 +11,6 @@ CORS(app)
 def detect():
     if request.method == 'POST':
         files =  request.files.getlist('files') #files or image
-        #files = request.files['images']
         results = []
         for file in files:
             basepath = os.path.dirname(__file__)
@@ -21,7 +20,7 @@ def detect():
             result = runModel(file_path)
             results.append(result)
 
-        return jsonify(results )
+        return jsonify(results)
     return None
 
 if __name__ == "__main__":
