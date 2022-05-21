@@ -12,6 +12,10 @@ const ImageDropZone = () => {
     setFiles(files.filter(f => f !== deleted))
   }
 
+  const predict = () => {
+    console.log(files)
+  }
+
   return (
     <DropzoneDialogBase
       open={true}
@@ -25,6 +29,7 @@ const ImageDropZone = () => {
       showPreviewsInDropzone={false}
       showPreviews={true}
       previewText={'Uploaded images'}
+      onSave={predict}
     />
   )
 }
