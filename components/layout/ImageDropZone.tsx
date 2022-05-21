@@ -12,8 +12,16 @@ const ImageDropZone = () => {
     setFiles(files.filter(f => f !== deleted))
   }
 
-  const predict = () => {
-    console.log(files)
+  const predict = async () => {
+    console.log(files[0].file)
+    const formData = new FormData()
+    formData.append('files', files[0].file)
+    const response = await fetch(`http://127.0.0.1:5000/detect`, {
+      method: 'POST',
+      body: formData,
+    })
+    const data = await response
+    data.json().then(res => console.log(res[0].detections))
   }
 
   return (
