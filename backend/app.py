@@ -1,8 +1,14 @@
 from flask import Flask, request, jsonify
 import os
 from yolov4darknet.detect import runModel
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
+
+@app.route("/hi", methods=['GET'])
+def hi():
+    return jsonify("Hi")
 
 @app.route('/detect', methods=['POST'])
 def detect():
