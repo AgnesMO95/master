@@ -69,7 +69,7 @@ using pip
 pip install -r requirements.txt
 ```
 
-### Start backend server/Run backend
+### Start backend server/Run backend (development server)
 
 windows:
 
