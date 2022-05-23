@@ -5,6 +5,10 @@ import Image from 'next/image'
 import theme from '../../styles/theme'
 
 export default function TitlebarBelowImageList() {
+  const handleOnClick = async () => {
+    console.log('hei')
+  }
+
   return (
     <ImageList
       cols={4}
@@ -26,15 +30,16 @@ export default function TitlebarBelowImageList() {
       }}
     >
       {itemData.map(item => (
-        <ImageListItem key={item.img}>
+        <ImageListItem key={item.author}>
           <img
             src={`${item.img}?w=248&fit=crop&auto=format`}
-            srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+            //srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
             alt={item.title}
             loading="lazy"
+            onClick={handleOnClick}
           />
           <ImageListItemBar
-            title={<span>Number of Osteoclasts: {item.title}</span>}
+            title={<span>Count: {item.title}</span>}
             subtitle={item.img}
             position="below"
           />
