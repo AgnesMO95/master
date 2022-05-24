@@ -3,6 +3,7 @@ import ImageListItem from '@mui/material/ImageListItem'
 import ImageListItemBar from '@mui/material/ImageListItemBar'
 import Image from 'next/image'
 import theme from '../../styles/theme'
+import { useRouter } from 'next/router'
 
 interface Props {
   itemData: {
@@ -12,8 +13,11 @@ interface Props {
 }
 
 export default function TitlebarBelowImageList(props: Props) {
-  const handleOnClick = async () => {
+  const router = useRouter()
+
+  function handleOnClick(img: string) {
     console.log('hei')
+    router.push('/results' + img)
   }
 
   return (
@@ -43,7 +47,7 @@ export default function TitlebarBelowImageList(props: Props) {
             //srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
             alt={item.img}
             loading="lazy"
-            onClick={handleOnClick}
+            onClick={() => handleOnClick(item.img)}
           />
           <ImageListItemBar
             title={<span>Count: {item.count}</span>}
