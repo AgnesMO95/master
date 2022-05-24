@@ -6,6 +6,7 @@ import { CssBaseline } from '@mui/material'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import theme from '../styles/theme'
 import createEmotionCache from '../lib/createEmotionCache'
+import MainNavigation from '../components/layout/MainNavigation'
 
 //client-side cahce, shared for the whole session of the user in the browser
 const clientSideEmotionCache = createEmotionCache()
@@ -25,6 +26,7 @@ function App(props: MyAppProps) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <MainNavigation />
         <Component {...pageProps} />
       </ThemeProvider>
     </CacheProvider>
