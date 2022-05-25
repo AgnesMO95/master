@@ -102,7 +102,7 @@ const ResultDetail = (props: Props) => {
             <img src={props.image} alt={props.title} width={'100%'} />
           </Grid>
           <Grid item xs={4}>
-            <Container>
+            <Container sx={{ maxHeight: 700, overflowY: 'scroll' }}>
               <Grid container spacing={4} justifyContent="center">
                 {detection.map(item => (
                   <Grid item key={detection.indexOf(item)}>
