@@ -92,7 +92,7 @@ const detection = [
 ]
 
 const ResultDetail = (props: Props) => {
-  const [isHover, setHover] = useState(false)
+  const [hoveredItem, setHoveredItem] = useState<number | null>(null)
 
   return (
     <Fragment>
@@ -105,13 +105,17 @@ const ResultDetail = (props: Props) => {
             <Container>
               <Grid container spacing={4} justifyContent="center">
                 {detection.map(item => (
-                  <Grid item key={item.confidence}>
+                  <Grid item key={detection.indexOf(item)}>
                     {/* {isHover && <DeleteIcon />} */}
 
                     <Box
                       display="flex"
                       flexDirection="column"
                       alignItems="flex-end"
+                      onMouseEnter={() =>
+                        setHoveredItem(detection.indexOf(item))
+                      }
+                      onMouseLeave={() => setHoveredItem(null)}
                     >
                       <Card>
                         <div
@@ -125,8 +129,6 @@ const ResultDetail = (props: Props) => {
                           <StyledImage
                             src={props.image}
                             alt={props.title}
-                            onMouseEnter={() => setHover(true)}
-                            onMouseLeave={() => setHover(false)}
                             // style={{ top: '450', left: '1320' }}
                           />
                         </div>
@@ -135,16 +137,18 @@ const ResultDetail = (props: Props) => {
                           <Typography>{item.confidence}</Typography>
                         </CardContent>
                       </Card>
-                      <Tooltip
-                        disableFocusListener
-                        disableTouchListener
-                        title="Delete"
-                        placement="top-end"
-                      >
-                        <IconButton sx={{ position: 'absolute' }}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
+                      {hoveredItem == detection.indexOf(item) && (
+                        <Tooltip
+                          disableFocusListener
+                          disableTouchListener
+                          title="Delete"
+                          placement="top-end"
+                        >
+                          <IconButton sx={{ position: 'absolute' }}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
                     </Box>
                   </Grid>
                 ))}
