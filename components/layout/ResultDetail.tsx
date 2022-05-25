@@ -12,7 +12,7 @@ import {
 import { Fragment, useState } from 'react'
 import styled from '@emotion/styled'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { spacing } from '@mui/system'
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 
 const StyledImage = styled.img`
   //width: 100px;
@@ -99,7 +99,11 @@ const ResultDetail = (props: Props) => {
       <Container sx={{ py: 8 }} maxWidth="lg">
         <Grid container spacing={5}>
           <Grid item xs={8}>
-            <img src={props.image} alt={props.title} width={'100%'} />
+            <TransformWrapper>
+              <TransformComponent>
+                <img src={props.image} alt={props.title} width={'100%'} />
+              </TransformComponent>
+            </TransformWrapper>
           </Grid>
           <Grid item xs={4}>
             <Container sx={{ maxHeight: 700, overflowY: 'scroll' }}>
