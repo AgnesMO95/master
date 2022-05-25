@@ -103,6 +103,7 @@ const ResultDetail = (props: Props) => {
           </Grid>
           <Grid item xs={4}>
             <Container sx={{ maxHeight: 700, overflowY: 'scroll' }}>
+              {/* kunne ha brukt react image list, kan da få image list item bar som tar in action */}
               <Grid container spacing={4} justifyContent="center">
                 {detection.map(item => (
                   <Grid item key={detection.indexOf(item)}>
