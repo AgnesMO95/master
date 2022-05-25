@@ -13,6 +13,7 @@ import { Fragment, useState } from 'react'
 import styled from '@emotion/styled'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
+import React from 'react'
 
 const StyledImage = styled.img`
   //width: 100px;
@@ -99,10 +100,23 @@ const ResultDetail = (props: Props) => {
       <Container sx={{ py: 8 }} maxWidth="lg">
         <Grid container spacing={5}>
           <Grid item xs={8}>
-            <TransformWrapper>
-              <TransformComponent>
-                <img src={props.image} alt={props.title} width={'100%'} />
-              </TransformComponent>
+            <TransformWrapper
+              initialScale={1}
+              initialPositionX={200}
+              initialPositionY={100}
+            >
+              {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+                <React.Fragment>
+                  <div className="tools">
+                    <button onClick={() => zoomIn()}>+ Zoom In</button>
+                    <button onClick={() => zoomOut()}>- Zoom Out</button>
+                    <button onClick={() => resetTransform()}>x Reset</button>
+                  </div>
+                  <TransformComponent>
+                    <img src={props.image} alt={props.title} width={'100%'} />
+                  </TransformComponent>
+                </React.Fragment>
+              )}
             </TransformWrapper>
           </Grid>
           <Grid item xs={4}>
