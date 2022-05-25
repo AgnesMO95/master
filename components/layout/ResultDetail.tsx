@@ -12,6 +12,7 @@ import {
 import { Fragment, useState } from 'react'
 import styled from '@emotion/styled'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { spacing } from '@mui/system'
 
 const StyledImage = styled.img`
   //width: 100px;
@@ -104,18 +105,15 @@ const ResultDetail = (props: Props) => {
             <Container>
               <Grid container spacing={4} justifyContent="center">
                 {detection.map(item => (
-                  <Grid item key={item.confidence} spacing={4}>
+                  <Grid item key={item.confidence}>
                     {/* {isHover && <DeleteIcon />} */}
-                    <Tooltip
-                      disableFocusListener
-                      disableTouchListener
-                      title="Delete"
-                      placement="top-end"
+
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="flex-end"
                     >
                       <Card>
-                        <IconButton>
-                          <DeleteIcon />
-                        </IconButton>
                         <div
                           style={{
                             width: 100,
@@ -137,7 +135,17 @@ const ResultDetail = (props: Props) => {
                           <Typography>{item.confidence}</Typography>
                         </CardContent>
                       </Card>
-                    </Tooltip>
+                      <Tooltip
+                        disableFocusListener
+                        disableTouchListener
+                        title="Delete"
+                        placement="top-end"
+                      >
+                        <IconButton sx={{ position: 'absolute' }}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
                   </Grid>
                 ))}
               </Grid>
