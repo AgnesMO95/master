@@ -5,7 +5,6 @@ import {
   Container,
   Grid,
   IconButton,
-  ListItemSecondaryAction,
   Tooltip,
   Typography,
 } from '@mui/material'
@@ -15,7 +14,12 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import React from 'react'
 
-const StyledImage = styled.img`
+interface IImageProps {
+  x: number
+  y: number
+}
+
+const StyledImage = styled.img<IImageProps>`
   //width: 100px;
   //margin-top: 10px;
   //position: static;
@@ -24,8 +28,8 @@ const StyledImage = styled.img`
   //width: 100px;
   /* top: 2000;
   left: 2000; */
-  margin-left: -4300px;
-  margin-top: -4100px;
+  margin-left: -${props => props.x}px; //-4300px;
+  margin-top: -${props => props.y}px; //-4100px;
 `
 
 interface Props {
@@ -37,58 +41,58 @@ const detection = [
   {
     label: 'Osteoclast',
     confidence: '0.3',
-    x: 39,
-    y: 10,
-    w: 20,
-    h: 38,
+    x: 1089,
+    y: 2835,
+    w: 97,
+    h: 79,
   },
   {
     label: 'Osteoclast',
     confidence: '0.34',
-    x: 39,
-    y: 10,
-    w: 20,
-    h: 38,
+    x: 1106,
+    y: 4177,
+    w: 108,
+    h: 109,
   },
   {
     label: 'Osteoclast',
     confidence: '0.37',
-    x: 39,
-    y: 10,
-    w: 20,
-    h: 38,
+    x: 1401,
+    y: 3159,
+    w: 105,
+    h: 103,
   },
   {
     label: 'Osteoclast',
     confidence: '0.4',
-    x: 39,
-    y: 10,
-    w: 20,
-    h: 38,
+    x: 1398,
+    y: 3459,
+    w: 102,
+    h: 102,
   },
   {
     label: 'Osteoclast',
     confidence: '0.42',
-    x: 39,
-    y: 10,
-    w: 20,
-    h: 38,
+    x: 1370,
+    y: 5477,
+    w: 98,
+    h: 95,
   },
   {
     label: 'Osteoclast',
     confidence: '0.46',
-    x: 39,
-    y: 10,
-    w: 20,
-    h: 38,
+    x: 1404,
+    y: 5697,
+    w: 109,
+    h: 102,
   },
   {
     label: 'Osteoclast',
     confidence: '0.5',
-    x: 39,
-    y: 10,
-    w: 20,
-    h: 38,
+    x: 1275,
+    y: 6655,
+    w: 109,
+    h: 53,
   },
 ]
 
@@ -148,6 +152,8 @@ const ResultDetail = (props: Props) => {
                           <StyledImage
                             src={props.image}
                             alt={props.title}
+                            x={item.x}
+                            y={item.y}
                             // style={{ top: '450', left: '1320' }}
                           />
                         </div>
