@@ -29,8 +29,8 @@ const StyledImage = styled.img<IImageProps>`
   //width: 100px;
   /* top: 2000;
   left: 2000; */
-  margin-left: -${props => props.x}px; //-4300px;
-  margin-top: -${props => props.y}px; //-4100px;
+  margin-left: -${props => props.x}px;
+  margin-top: -${props => props.y}px;
 `
 
 interface Props {
@@ -113,14 +113,6 @@ const ResultDetail = (props: Props) => {
       console.log('canvas or image is null')
       return
     }
-    console.log('HEEEEER')
-    console.log(image.height, image.width)
-    console.log(
-      image.clientWidth,
-      image.offsetWidth,
-      image.scrollWidth,
-      image.naturalWidth
-    )
     canvas.width = image.width
     canvas.height = image.height
     const ctx = canvas.getContext('2d')
@@ -149,10 +141,7 @@ const ResultDetail = (props: Props) => {
     ctx: CanvasRenderingContext2D //canvas
   ) => {
     detection.map(item => {
-      console.log('drawrect')
-      console.log('map')
       if (item.confidence > threshold) {
-        console.log('draw')
         //ensure valid detection
         //set variables
         const text = 'Osteoclast'
@@ -167,8 +156,6 @@ const ResultDetail = (props: Props) => {
         ctx.lineWidth = 1
         ctx.fillStyle = 'black'
         ctx.font = '7px Arial'
-        console.log(canvasRef.current?.width, canvasRef.current?.height)
-        console.log(imgHeight)
         //draw
         ctx.beginPath()
         // ctx.fillText(
@@ -176,19 +163,6 @@ const ResultDetail = (props: Props) => {
         //   x * imgWidth,
         //   y * imgHeight - 2
         // )
-        console.log(item.x, item.y, item.w, item.h)
-        console.log([
-          x * imgWidth,
-          y * imgHeight,
-          w * imgWidth, // / 2
-          h * imgHeight,
-        ])
-        console.log([
-          x * imgWidth,
-          y * imgHeight,
-          w * (imgWidth / 2), // / 2
-          h * (imgHeight / 1.5),
-        ])
         //convert from % to px
         ctx.rect(
           x * imgWidth,
