@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import styled from '@emotion/styled'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
@@ -102,6 +102,10 @@ const ResultDetail = (props: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
 
+  useEffect(() => {
+    drawBoundingBoxes()
+  }, [])
+
   const drawBoundingBoxes = () => {
     const image = imageRef.current
     const canvas = canvasRef.current
@@ -109,6 +113,14 @@ const ResultDetail = (props: Props) => {
       console.log('canvas or image is null')
       return
     }
+    console.log('HEEEEER')
+    console.log(image.height, image.width)
+    console.log(
+      image.clientWidth,
+      image.offsetWidth,
+      image.scrollWidth,
+      image.naturalWidth
+    )
     canvas.width = image.width
     canvas.height = image.height
     const ctx = canvas.getContext('2d')
@@ -117,11 +129,20 @@ const ResultDetail = (props: Props) => {
       return
     }
     requestAnimationFrame(() => {
-      drawRect(0.2, image.width, image.height, ctx)
+      drawRect(
+        image.naturalWidth,
+        image.naturalHeight,
+        0.2,
+        image.width,
+        image.height,
+        ctx
+      )
     })
   }
 
   const drawRect = (
+    imgNaturalWidth: number,
+    imgNaturalHeight: number,
     threshold: number,
     imgWidth: number,
     imgHeight: number,
@@ -135,40 +156,45 @@ const ResultDetail = (props: Props) => {
         //ensure valid detection
         //set variables
         const text = 'Osteoclast'
+        //convert to percentage
+        const x = item.x / imgNaturalWidth
+        const y = item.y / imgNaturalHeight
+        const w = item.w / imgNaturalWidth
+        const h = item.h / imgNaturalHeight
 
         //set styling
         ctx.strokeStyle = 'red'
-        ctx.lineWidth = 5
+        ctx.lineWidth = 1
         ctx.fillStyle = 'black'
-        ctx.font = '20px Arial'
+        ctx.font = '7px Arial'
         console.log(canvasRef.current?.width, canvasRef.current?.height)
         console.log(imgHeight)
         //draw
         ctx.beginPath()
-        ctx.fillText(
-          text + ' - ' + Math.round(item.confidence * 100) / 100,
-          item.x * imgWidth,
-          item.y * imgHeight - 10
-        )
+        // ctx.fillText(
+        //   text + ' - ' + Math.round(item.confidence * 100) / 100,
+        //   x * imgWidth,
+        //   y * imgHeight - 2
+        // )
         console.log(item.x, item.y, item.w, item.h)
         console.log([
-          item.x * imgWidth,
-          item.y * imgHeight,
-          item.w * imgWidth, // / 2
-          item.h * imgHeight,
+          x * imgWidth,
+          y * imgHeight,
+          w * imgWidth, // / 2
+          h * imgHeight,
         ])
         console.log([
-          item.x * imgWidth,
-          item.y * imgHeight,
-          item.w * (imgWidth / 2), // / 2
-          item.h * (imgHeight / 1.5),
+          x * imgWidth,
+          y * imgHeight,
+          w * (imgWidth / 2), // / 2
+          h * (imgHeight / 1.5),
         ])
         //convert from % to px
         ctx.rect(
-          item.x * imgWidth,
-          item.y * imgHeight,
-          item.w * imgWidth - item.x * imgWidth, // width of rect
-          item.h * imgHeight - item.y * imgHeight
+          x * imgWidth,
+          y * imgHeight,
+          w * imgWidth, //- x * imgWidth, // width of rect
+          h * imgHeight //- y * imgHeight
         )
         ctx.stroke()
       }
@@ -199,8 +225,13 @@ const ResultDetail = (props: Props) => {
                       width={'100%'}
                       z-index={8}
                       ref={imageRef}
+                      //style={{ position: 'absolute' }}
                     />
-                    <canvas ref={canvasRef} />
+                    <canvas
+                      ref={canvasRef}
+                      z-index={9}
+                      style={{ position: 'absolute' }}
+                    />
                   </TransformComponent>
                 </React.Fragment>
               )}
