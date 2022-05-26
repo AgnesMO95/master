@@ -8,11 +8,12 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import { Fragment, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import styled from '@emotion/styled'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import React from 'react'
+import { CommentsDisabledOutlined } from '@mui/icons-material'
 
 interface IImageProps {
   x: number
@@ -40,7 +41,7 @@ interface Props {
 const detection = [
   {
     label: 'Osteoclast',
-    confidence: '0.3',
+    confidence: 0.5676062107086182,
     x: 1089,
     y: 2835,
     w: 97,
@@ -48,7 +49,7 @@ const detection = [
   },
   {
     label: 'Osteoclast',
-    confidence: '0.34',
+    confidence: 0.3166319727897644,
     x: 1106,
     y: 4177,
     w: 108,
@@ -56,7 +57,7 @@ const detection = [
   },
   {
     label: 'Osteoclast',
-    confidence: '0.37',
+    confidence: 0.5859971642494202,
     x: 1401,
     y: 3159,
     w: 105,
@@ -64,7 +65,7 @@ const detection = [
   },
   {
     label: 'Osteoclast',
-    confidence: '0.4',
+    confidence: 0.44125014543533325,
     x: 1398,
     y: 3459,
     w: 102,
@@ -72,7 +73,7 @@ const detection = [
   },
   {
     label: 'Osteoclast',
-    confidence: '0.42',
+    confidence: 0.3947586715221405,
     x: 1370,
     y: 5477,
     w: 98,
@@ -80,7 +81,7 @@ const detection = [
   },
   {
     label: 'Osteoclast',
-    confidence: '0.46',
+    confidence: 0.30254414677619934,
     x: 1404,
     y: 5697,
     w: 109,
@@ -88,7 +89,7 @@ const detection = [
   },
   {
     label: 'Osteoclast',
-    confidence: '0.5',
+    confidence: 0.31677988171577454,
     x: 1275,
     y: 6655,
     w: 109,
@@ -98,6 +99,81 @@ const detection = [
 
 const ResultDetail = (props: Props) => {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const imageRef = useRef<HTMLImageElement>(null)
+
+  const drawBoundingBoxes = () => {
+    const image = imageRef.current
+    const canvas = canvasRef.current
+    if (!image || !canvas) {
+      console.log('canvas or image is null')
+      return
+    }
+    canvas.width = image.width
+    canvas.height = image.height
+    const ctx = canvas.getContext('2d')
+    if (!ctx) {
+      console.log('ctx is null')
+      return
+    }
+    requestAnimationFrame(() => {
+      drawRect(0.2, image.width, image.height, ctx)
+    })
+  }
+
+  const drawRect = (
+    threshold: number,
+    imgWidth: number,
+    imgHeight: number,
+    ctx: CanvasRenderingContext2D //canvas
+  ) => {
+    detection.map(item => {
+      console.log('drawrect')
+      console.log('map')
+      if (item.confidence > threshold) {
+        console.log('draw')
+        //ensure valid detection
+        //set variables
+        const text = 'Osteoclast'
+
+        //set styling
+        ctx.strokeStyle = 'red'
+        ctx.lineWidth = 5
+        ctx.fillStyle = 'black'
+        ctx.font = '20px Arial'
+        console.log(canvasRef.current?.width, canvasRef.current?.height)
+        console.log(imgHeight)
+        //draw
+        ctx.beginPath()
+        ctx.fillText(
+          text + ' - ' + Math.round(item.confidence * 100) / 100,
+          item.x * imgWidth,
+          item.y * imgHeight - 10
+        )
+        console.log(item.x, item.y, item.w, item.h)
+        console.log([
+          item.x * imgWidth,
+          item.y * imgHeight,
+          item.w * imgWidth, // / 2
+          item.h * imgHeight,
+        ])
+        console.log([
+          item.x * imgWidth,
+          item.y * imgHeight,
+          item.w * (imgWidth / 2), // / 2
+          item.h * (imgHeight / 1.5),
+        ])
+        //convert from % to px
+        ctx.rect(
+          item.x * imgWidth,
+          item.y * imgHeight,
+          item.w * imgWidth - item.x * imgWidth, // width of rect
+          item.h * imgHeight - item.y * imgHeight
+        )
+        ctx.stroke()
+      }
+    })
+  }
 
   return (
     <Fragment>
@@ -117,7 +193,14 @@ const ResultDetail = (props: Props) => {
                     <button onClick={() => resetTransform()}>x Reset</button>
                   </div>
                   <TransformComponent>
-                    <img src={props.image} alt={props.title} width={'100%'} />
+                    <img
+                      src={props.image}
+                      alt={props.title}
+                      width={'100%'}
+                      z-index={8}
+                      ref={imageRef}
+                    />
+                    <canvas ref={canvasRef} />
                   </TransformComponent>
                 </React.Fragment>
               )}
@@ -143,8 +226,8 @@ const ResultDetail = (props: Props) => {
                       <Card>
                         <div
                           style={{
-                            width: 100,
-                            height: 100,
+                            width: 120,
+                            height: 120,
                             overflow: 'hidden',
                             //position: 'absolute',
                           }}
