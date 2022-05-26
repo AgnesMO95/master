@@ -13,7 +13,6 @@ import styled from '@emotion/styled'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import React from 'react'
-import { CommentsDisabledOutlined } from '@mui/icons-material'
 
 interface IImageProps {
   x: number
@@ -227,6 +226,7 @@ const ResultDetail = (props: Props) => {
                         setHoveredItem(detection.indexOf(item))
                       }
                       onMouseLeave={() => setHoveredItem(null)}
+                      style={{ position: 'relative' }}
                     >
                       <Card>
                         <div
@@ -242,12 +242,15 @@ const ResultDetail = (props: Props) => {
                             alt={props.title}
                             x={item.x}
                             y={item.y}
+                            z-index={8}
                             // style={{ top: '450', left: '1320' }}
                           />
                         </div>
 
                         <CardContent sx={{ flexGrow: 1 }}>
-                          <Typography>{item.confidence}</Typography>
+                          <Typography>
+                            {Math.round(item.confidence * 100) / 100}
+                          </Typography>
                         </CardContent>
                       </Card>
                       {hoveredItem == detection.indexOf(item) && (
@@ -257,7 +260,7 @@ const ResultDetail = (props: Props) => {
                           title="Delete"
                           placement="top-end"
                         >
-                          <IconButton sx={{ position: 'absolute' }}>
+                          <IconButton sx={{ position: 'absolute', zIndex: 9 }}>
                             <DeleteIcon />
                           </IconButton>
                         </Tooltip>
