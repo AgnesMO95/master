@@ -39,6 +39,15 @@ interface Props {
   title: string
 }
 
+interface detectionData {
+  label: string
+  confidence: number
+  x: number
+  y: number
+  w: number
+  h: number
+}
+
 const detection = [
   {
     label: 'Osteoclast',
@@ -100,15 +109,19 @@ const detection = [
 
 const ResultDetail = (props: Props) => {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
+  const [boundingBoxes, setBoundingBoxes] = useState(detection)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
+
+  const handleDelete = (deleted: detectionData) => {
+    setBoundingBoxes(boundingBoxes.filter(f => f !== deleted))
+  }
 
   useEffect(() => {
     drawBoundingBoxes()
   }, [])
 
   const drawBoundingBoxes = () => {
-    console.log(detection.length)
     const image = imageRef.current
     const canvas = canvasRef.current
     if (!image || !canvas) {
@@ -218,8 +231,8 @@ const ResultDetail = (props: Props) => {
             <Container sx={{ maxHeight: 700, overflowY: 'scroll' }}>
               {/* kunne ha brukt react image list, kan da få image list item bar som tar in action */}
               <Grid container spacing={4} justifyContent="center">
-                {detection.map(item => (
-                  <Grid item key={detection.indexOf(item)}>
+                {boundingBoxes.map(item => (
+                  <Grid item key={boundingBoxes.indexOf(item)}>
                     {/* {isHover && <DeleteIcon />} */}
 
                     <Box
@@ -227,7 +240,7 @@ const ResultDetail = (props: Props) => {
                       flexDirection="column"
                       alignItems="flex-end"
                       onMouseEnter={() =>
-                        setHoveredItem(detection.indexOf(item))
+                        setHoveredItem(boundingBoxes.indexOf(item))
                       }
                       onMouseLeave={() => setHoveredItem(null)}
                       style={{ position: 'relative' }}
@@ -257,14 +270,17 @@ const ResultDetail = (props: Props) => {
                           </Typography>
                         </CardContent>
                       </Card>
-                      {hoveredItem == detection.indexOf(item) && (
+                      {hoveredItem == boundingBoxes.indexOf(item) && (
                         <Tooltip
                           disableFocusListener
                           disableTouchListener
                           title="Delete"
                           placement="top-end"
                         >
-                          <IconButton sx={{ position: 'absolute', zIndex: 9 }}>
+                          <IconButton
+                            onClick={() => handleDelete(item)}
+                            sx={{ position: 'absolute', zIndex: 9 }}
+                          >
                             <DeleteIcon />
                           </IconButton>
                         </Tooltip>
