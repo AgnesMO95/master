@@ -16,6 +16,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import React from 'react'
 import DiscreteSliderLabel from '../ui/DiscreteSlider'
+import { RestartAlt, Save, ZoomIn, ZoomOut } from '@mui/icons-material'
 
 interface IImageProps {
   x: number
@@ -204,9 +205,30 @@ const ResultDetail = (props: Props) => {
               {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
                 <React.Fragment>
                   <div className="tools">
-                    <button onClick={() => zoomIn()}>+ Zoom In</button>
-                    <button onClick={() => zoomOut()}>- Zoom Out</button>
-                    <button onClick={() => resetTransform()}>x Reset</button>
+                    <Button
+                      variant="text"
+                      size="small"
+                      startIcon={<ZoomIn />}
+                      onClick={() => zoomIn()}
+                    >
+                      Zoom In
+                    </Button>
+                    <Button
+                      variant="text"
+                      size="small"
+                      startIcon={<ZoomOut />}
+                      onClick={() => zoomOut()}
+                    >
+                      Zoom Out
+                    </Button>
+                    <Button
+                      variant="text"
+                      size="small"
+                      startIcon={<RestartAlt />}
+                      onClick={() => resetTransform()}
+                    >
+                      Reset
+                    </Button>
                   </div>
                   <TransformComponent>
                     <img
@@ -293,7 +315,12 @@ const ResultDetail = (props: Props) => {
             </Container>
           </Grid>
         </Grid>
-        <Button variant="outlined" size="large" sx={{ top: 20, left: 500 }}>
+        <Button
+          variant="outlined"
+          size="large"
+          endIcon={<Save />}
+          sx={{ top: 20, left: 500 }}
+        >
           Save
         </Button>
       </Container>
