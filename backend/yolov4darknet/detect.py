@@ -137,13 +137,13 @@ def get_predection(image,net,LABELS,COLORS):
             outputs['detections'].append(detection)
             
     else:
-        outputs['detections'].append('No object detected' )     
+        outputs['detections'] = 'No object detected'    
     return outputs #image
 
-def runModel(img):
+def runModel(image):
     # load our input image and grab its spatial dimensions
     #print(img)
-    image = cv2.imread(img)
+    #image = cv2.imread(img)
     #print(image)
     labelsPath="C:/Users/agnes/var-master/webapp/oc_counter/backend/yolov4darknet/obj.names"
     cfgpath="C:/Users/agnes/var-master/webapp/oc_counter/backend/yolov4darknet/cfg/yolov4_custom.cfg"
