@@ -16,7 +16,7 @@ import AdbIcon from '@mui/icons-material/Adb'
 const pages = ['Upload', 'Results', 'About']
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
-const ResponsiveAppBar = () => {
+const MainNavigation = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -161,4 +161,4 @@ const ResponsiveAppBar = () => {
     </AppBar>
   )
 }
-export default ResponsiveAppBar
+export default MainNavigation
