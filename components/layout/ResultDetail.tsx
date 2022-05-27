@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Container,
@@ -292,6 +293,9 @@ const ResultDetail = (props: Props) => {
             </Container>
           </Grid>
         </Grid>
+        <Button variant="outlined" size="large" sx={{ top: 20, left: 500 }}>
+          Save
+        </Button>
       </Container>
     </Fragment>
   )
