@@ -8,11 +8,13 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
+
 import { Fragment, useEffect, useRef, useState } from 'react'
 import styled from '@emotion/styled'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import React from 'react'
+import DiscreteSliderLabel from '../ui/DiscreteSlider'
 
 interface IImageProps {
   x: number
@@ -106,6 +108,7 @@ const ResultDetail = (props: Props) => {
   }, [])
 
   const drawBoundingBoxes = () => {
+    console.log(detection.length)
     const image = imageRef.current
     const canvas = canvasRef.current
     if (!image || !canvas) {
@@ -178,7 +181,7 @@ const ResultDetail = (props: Props) => {
     <Fragment>
       <Container sx={{ py: 8 }} maxWidth="lg">
         <Grid container spacing={5}>
-          <Grid item xs={8}>
+          <Grid item xs={8} style={{ position: 'relative' }}>
             <TransformWrapper
               initialScale={1}
               initialPositionX={200}
@@ -198,7 +201,7 @@ const ResultDetail = (props: Props) => {
                       width={'100%'}
                       z-index={8}
                       ref={imageRef}
-                      //style={{ position: 'absolute' }}
+                      // style={{ position: 'absolute' }}
                     />
                     <canvas
                       ref={canvasRef}
@@ -209,6 +212,7 @@ const ResultDetail = (props: Props) => {
                 </React.Fragment>
               )}
             </TransformWrapper>
+            <DiscreteSliderLabel></DiscreteSliderLabel>
           </Grid>
           <Grid item xs={4}>
             <Container sx={{ maxHeight: 700, overflowY: 'scroll' }}>
