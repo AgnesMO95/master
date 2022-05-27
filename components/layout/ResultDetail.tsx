@@ -206,11 +206,7 @@ const ResultDetail = (props: Props) => {
         </Typography>
         <Grid container spacing={5}>
           <Grid item xs={8} style={{ position: 'relative' }}>
-            <TransformWrapper
-              initialScale={1}
-              initialPositionX={200}
-              //initialPositionY={100}
-            >
+            <TransformWrapper initialScale={1}>
               {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
                 <React.Fragment>
                   <div className="tools">
