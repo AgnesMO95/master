@@ -12,8 +12,9 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import AdbIcon from '@mui/icons-material/Adb'
+import Link from 'next/link'
 
-const pages = ['Upload', 'Results', 'About']
+const pages = ['upload', 'results', 'about']
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
 const MainNavigation = () => {
@@ -91,7 +92,9 @@ const MainNavigation = () => {
             >
               {pages.map(page => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center">
+                    <Link href={`/${encodeURIComponent(page)}`}>{page}</Link>
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -101,7 +104,7 @@ const MainNavigation = () => {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -122,7 +125,7 @@ const MainNavigation = () => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                <Link href={`/${encodeURIComponent(page)}`}>{page}</Link>
               </Button>
             ))}
           </Box>
