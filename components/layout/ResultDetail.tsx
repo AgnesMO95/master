@@ -195,12 +195,21 @@ const ResultDetail = (props: Props) => {
   return (
     <Fragment>
       <Container sx={{ py: 8 }} maxWidth="lg">
+        <Typography
+          component="h1"
+          variant="h2"
+          align="center"
+          color="text.primary"
+          gutterBottom
+        >
+          Number of Osteoclasts: {boundingBoxes.length}
+        </Typography>
         <Grid container spacing={5}>
           <Grid item xs={8} style={{ position: 'relative' }}>
             <TransformWrapper
               initialScale={1}
               initialPositionX={200}
-              initialPositionY={100}
+              //initialPositionY={100}
             >
               {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
                 <React.Fragment>
