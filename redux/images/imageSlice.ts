@@ -10,7 +10,7 @@ const initialState: ImageFileListState = {
 }
 
 export const imageFileListSlice = createSlice({
-  name: 'ImageFileList',
+  name: 'imageFileList',
   initialState,
   reducers: {
     addFileToList: (state: ImageFileListState, action: PayloadAction<File>) => {
@@ -18,7 +18,7 @@ export const imageFileListSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.images = state.images.concat(action.payload)
+      state.images.push(action.payload)
     },
     deleteFileInList: (
       state: ImageFileListState,
