@@ -9,9 +9,12 @@ import {
   addURLToList,
 } from '../../redux/images/imageSlice'
 
+import { addPredictions } from '../../redux/predictions/predictionSlice'
+
 const ImageDropZone = () => {
   const router = useRouter()
   const images = useAppSelector(state => state.imageFileList.images)
+  const predictions = useAppSelector(state => state.prediction.predictions)
   const dispatch = useAppDispatch()
 
   const [files, setFiles] = useState<FileObject[]>([])
@@ -35,14 +38,18 @@ const ImageDropZone = () => {
       body: formData,
     })
     const data = await response
-    data.json().then(res => console.log(res)) //[0].detections
-    await router.push('/results')
+    await data.json().then(res => {
+      console.log(res)
+      dispatch(addPredictions(res))
+    })
+    console.log(predictions)
+    //await router.push('/results')
   }
 
   const handleCancel = () => {
     router.push('/results')
   }
-
+  //console.log(predictions)
   return (
     <DropzoneDialogBase
       open={true}
