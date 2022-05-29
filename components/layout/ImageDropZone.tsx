@@ -1,11 +1,21 @@
 import { useState } from 'react'
 import { DropzoneDialogBase, FileObject } from 'react-mui-dropzone'
+import { useRouter } from 'next/router'
+
+import { useAppSelector, useAppDispatch } from '../../redux/hooks'
+import { addFileToList, deleteFileInList } from '../../redux/images/imageSlice'
 
 const ImageDropZone = () => {
+  const router = useRouter()
+  const images = useAppSelector(state => state.imageFileList.images)
+  const dispatch = useAppDispatch()
+
   const [files, setFiles] = useState<FileObject[]>([])
   const handleAdd = (newFiles: FileObject[]) => {
+    newFiles.map(file => dispatch(addFileToList(file.file)))
     const newFileList = files.concat(newFiles)
     setFiles(newFileList)
+    console.log('hva med her')
     console.log(files)
   }
   const handleDelete = (deleted: FileObject) => {
@@ -24,6 +34,10 @@ const ImageDropZone = () => {
     data.json().then(res => console.log(res)) //[0].detections
   }
 
+  const handleCancel = () => {
+    router.push('/results')
+  }
+
   return (
     <DropzoneDialogBase
       open={true}
@@ -31,6 +45,7 @@ const ImageDropZone = () => {
       fileObjects={files}
       onAdd={handleAdd}
       onDelete={handleDelete}
+      onClose={handleCancel}
       filesLimit={Infinity}
       maxFileSize={2000000000}
       acceptedFiles={['image/*']}
