@@ -19,6 +19,7 @@ const ImageDropZone = () => {
     console.log(files)
   }
   const handleDelete = (deleted: FileObject) => {
+    dispatch(deleteFileInList(deleted.file))
     setFiles(files.filter(f => f !== deleted))
   }
 
@@ -32,6 +33,7 @@ const ImageDropZone = () => {
     })
     const data = await response
     data.json().then(res => console.log(res)) //[0].detections
+    await router.push('/results')
   }
 
   const handleCancel = () => {
