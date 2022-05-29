@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import imageFileListReducer from './images/imageSlice'
+import predictionReducer from './predictions/predictionSlice'
 
 export const store = configureStore({
   reducer: {
     imageFileList: imageFileListReducer,
+    prediction: predictionReducer,
   },
 })
 
