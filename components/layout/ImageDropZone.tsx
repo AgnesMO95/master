@@ -15,8 +15,6 @@ const ImageDropZone = () => {
     newFiles.map(file => dispatch(addFileToList(file.file)))
     const newFileList = files.concat(newFiles)
     setFiles(newFileList)
-    console.log('hva med her')
-    console.log(files)
   }
   const handleDelete = (deleted: FileObject) => {
     dispatch(deleteFileInList(deleted.file))
@@ -24,8 +22,8 @@ const ImageDropZone = () => {
   }
 
   const predict = async () => {
-    console.log(files[0].file)
     const formData = new FormData()
+    //change files[0].file to images in order to send multiple images to backend
     formData.append('files', files[0].file)
     const response = await fetch(`http://127.0.0.1:5000/detect`, {
       method: 'POST',

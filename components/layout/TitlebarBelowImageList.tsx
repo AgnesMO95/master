@@ -33,7 +33,7 @@ export default function TitlebarBelowImageList(props: Props) {
 
   function handleOnClick(img: string) {
     console.log('hei')
-    router.push('/results' + img)
+    router.push('/results/' + img)
   }
 
   return (
