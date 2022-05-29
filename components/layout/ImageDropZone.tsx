@@ -3,7 +3,11 @@ import { DropzoneDialogBase, FileObject } from 'react-mui-dropzone'
 import { useRouter } from 'next/router'
 
 import { useAppSelector, useAppDispatch } from '../../redux/hooks'
-import { addFileToList, deleteFileInList } from '../../redux/images/imageSlice'
+import {
+  addFileToList,
+  deleteFileInList,
+  addURLToList,
+} from '../../redux/images/imageSlice'
 
 const ImageDropZone = () => {
   const router = useRouter()
@@ -13,6 +17,7 @@ const ImageDropZone = () => {
   const [files, setFiles] = useState<FileObject[]>([])
   const handleAdd = (newFiles: FileObject[]) => {
     newFiles.map(file => dispatch(addFileToList(file.file)))
+    newFiles.map(file => dispatch(addURLToList(URL.createObjectURL(file.file))))
     const newFileList = files.concat(newFiles)
     setFiles(newFileList)
   }

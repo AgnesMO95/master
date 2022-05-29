@@ -28,11 +28,11 @@ interface Props {
 export default function TitlebarBelowImageList(props: Props) {
   const router = useRouter()
   const images = useAppSelector(state => state.imageFileList.images)
+  const urls = useAppSelector(state => state.imageFileList.urls)
   console.log(images)
   const dispatch = useAppDispatch()
 
   function handleOnClick(img: string) {
-    console.log('hei')
     router.push('/results/' + img)
   }
 
@@ -79,8 +79,8 @@ export default function TitlebarBelowImageList(props: Props) {
       <Container sx={{ py: 8 }} maxWidth="lg">
         {/* End hero unit */}
         <Grid container spacing={4}>
-          {images.map(item => (
-            <Grid item key={item.name} xs={12} sm={6} md={4} lg={3}>
+          {urls.map(item => (
+            <Grid item key={item} xs={12} sm={6} md={4} lg={3}>
               <Card
                 sx={{
                   height: '100%',
@@ -96,20 +96,20 @@ export default function TitlebarBelowImageList(props: Props) {
                       //pt: '56.25%',
                     }
                   }
-                  image={URL.createObjectURL(item)}
+                  image={item}
                   alt="random"
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
                     {/* {item.count} */}532
                   </Typography>
-                  <Typography>{item.name}</Typography>
+                  <Typography>{item}</Typography>
                 </CardContent>
                 <CardActions>
                   <Button
                     size="small"
                     onClick={() => {
-                      handleOnClick(item.name)
+                      handleOnClick(item)
                     }}
                   >
                     Detailed results
