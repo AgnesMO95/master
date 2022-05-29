@@ -21,7 +21,7 @@ const ImageDropZone = () => {
       body: formData,
     })
     const data = await response
-    data.json().then(res => console.log(res[0].detections))
+    data.json().then(res => console.log(res)) //[0].detections
   }
 
   return (
