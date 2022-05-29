@@ -47,7 +47,7 @@ def tileImage(image):
     #     plt.show()
 
     print(len(indices))
-    # print(results)
+    print(results)
     return results
 
 
@@ -60,5 +60,5 @@ def tileImage(image):
     # plt.savefig('test-tile.png')
     # plt.show()
 
-# if __name__ == "__main__":
-#     tileImage()
+if __name__ == "__main__":
+    tileImage("../public/12330-6675-20361.png")
