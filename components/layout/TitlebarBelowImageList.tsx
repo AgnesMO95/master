@@ -16,7 +16,6 @@ import CardMedia from '@mui/material/CardMedia'
 import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 
 import Grid from '@mui/material/Grid'
-import Link from '@mui/material/Link'
 
 interface Props {
   itemData: {
