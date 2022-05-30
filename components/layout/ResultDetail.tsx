@@ -6,6 +6,7 @@ import {
   Container,
   Grid,
   IconButton,
+  Slider,
   Tooltip,
   Typography,
 } from '@mui/material'
@@ -17,6 +18,7 @@ import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import React from 'react'
 import DiscreteSliderLabel from '../ui/DiscreteSlider'
 import { RestartAlt, Save, ZoomIn, ZoomOut } from '@mui/icons-material'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 
 interface IImageProps {
   x: number
@@ -109,14 +111,45 @@ const detection = [
   },
 ]
 
+const marks = [
+  {
+    value: 0,
+    label: '0',
+  },
+  {
+    value: 0.25,
+    label: '0.25',
+  },
+  {
+    value: 0.5,
+    label: '0.5',
+  },
+  {
+    value: 1,
+    label: '1',
+  },
+]
+
+function valuetext(value: number) {
+  return `${value}`
+}
+
 const ResultDetail = (props: Props) => {
+  const predictions = useAppSelector(state => state.prediction.predictions)
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
-  const [boundingBoxes, setBoundingBoxes] = useState(detection)
+  const detections = [...predictions[props.title.substring(1)]['detections']]
+  const sortedList = detections.sort((a, b) => a.confidence - b.confidence)
+  const [boundingBoxes, setBoundingBoxes] = useState(sortedList)
+  const [count, setCount] = useState<number>(
+    predictions[props.title.substring(1)]['count']
+  )
+  const [threshold, setThreshold] = useState<number>(0.26)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
 
   const handleDelete = (deleted: detectionData) => {
     setBoundingBoxes(boundingBoxes.filter(f => f !== deleted))
+    setCount(count - 1)
   }
 
   useEffect(() => {
@@ -157,7 +190,7 @@ const ResultDetail = (props: Props) => {
     imgHeight: number,
     ctx: CanvasRenderingContext2D //canvas
   ) => {
-    detection.map(item => {
+    boundingBoxes.map(item => {
       if (item.confidence > threshold) {
         //ensure valid detection
         //set variables
@@ -192,6 +225,12 @@ const ResultDetail = (props: Props) => {
     })
   }
 
+  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    if (typeof newValue === 'number') {
+      setThreshold(newValue)
+    }
+  }
+
   return (
     <Fragment>
       <Container sx={{ py: 8 }} maxWidth="lg">
@@ -202,7 +241,8 @@ const ResultDetail = (props: Props) => {
           color="text.primary"
           gutterBottom
         >
-          Number of Osteoclasts: {boundingBoxes.length}
+          Number of Osteoclasts: {count}
+          {/* {boundingBoxes.length} */}
         </Typography>
         <Grid container spacing={5}>
           <Grid item xs={8} style={{ position: 'relative' }}>
@@ -253,69 +293,85 @@ const ResultDetail = (props: Props) => {
                 </React.Fragment>
               )}
             </TransformWrapper>
-            <DiscreteSliderLabel></DiscreteSliderLabel>
+            <Box sx={{ width: 300 }}>
+              <Slider
+                aria-label="Always visible"
+                defaultValue={0.25}
+                getAriaValueText={valuetext}
+                step={0.05}
+                marks={marks}
+                min={0}
+                max={1}
+                valueLabelDisplay="auto"
+                onChange={handleSliderChange}
+              />
+            </Box>
           </Grid>
           <Grid item xs={4}>
             <Container sx={{ maxHeight: 700, overflowY: 'scroll' }}>
               {/* kunne ha brukt react image list, kan da få image list item bar som tar in action */}
               <Grid container spacing={4} justifyContent="center">
-                {boundingBoxes.map(item => (
-                  <Grid item key={boundingBoxes.indexOf(item)}>
-                    {/* {isHover && <DeleteIcon />} */}
+                {boundingBoxes.map(item => {
+                  if (item.confidence > threshold) {
+                    return (
+                      <Grid item key={boundingBoxes.indexOf(item)}>
+                        {/* {isHover && <DeleteIcon />} */}
 
-                    <Box
-                      display="flex"
-                      flexDirection="column"
-                      alignItems="flex-end"
-                      onMouseEnter={() =>
-                        setHoveredItem(boundingBoxes.indexOf(item))
-                      }
-                      onMouseLeave={() => setHoveredItem(null)}
-                      style={{ position: 'relative' }}
-                    >
-                      <Card>
-                        <div
-                          style={{
-                            width: 120,
-                            height: 120,
-                            overflow: 'hidden',
-                            //position: 'absolute',
-                          }}
+                        <Box
+                          display="flex"
+                          flexDirection="column"
+                          alignItems="flex-end"
+                          onMouseEnter={() =>
+                            setHoveredItem(boundingBoxes.indexOf(item))
+                          }
+                          onMouseLeave={() => setHoveredItem(null)}
+                          style={{ position: 'relative' }}
                         >
-                          <StyledImage
-                            src={props.image}
-                            alt={props.title}
-                            x={item.x}
-                            y={item.y}
-                            z-index={8}
-                            // style={{ top: '450', left: '1320' }}
-                          />
-                        </div>
+                          <Card>
+                            <div
+                              style={{
+                                width: 120,
+                                height: 120,
+                                overflow: 'hidden',
+                                //position: 'absolute',
+                              }}
+                            >
+                              <StyledImage
+                                src={props.image}
+                                alt={props.title}
+                                x={item.x}
+                                y={item.y}
+                                z-index={8}
+                                // style={{ top: '450', left: '1320' }}
+                              />
+                            </div>
 
-                        <CardContent sx={{ flexGrow: 1 }}>
-                          <Typography>
-                            {Math.round(item.confidence * 100) / 100}
-                          </Typography>
-                        </CardContent>
-                      </Card>
-                      {hoveredItem == boundingBoxes.indexOf(item) && (
-                        <Tooltip
-                          disableFocusListener
-                          disableTouchListener
-                          title="Delete"
-                          placement="top-end"
-                        >
-                          <IconButton
-                            onClick={() => handleDelete(item)}
-                            sx={{ position: 'absolute', zIndex: 9 }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                    </Box>
-                  </Grid>
-                ))}
+                            <CardContent sx={{ flexGrow: 1 }}>
+                              <Typography>
+                                {Math.round(item.confidence * 1000) / 1000}
+                              </Typography>
+                            </CardContent>
+                          </Card>
+                          {hoveredItem == boundingBoxes.indexOf(item) && (
+                            <Tooltip
+                              disableFocusListener
+                              disableTouchListener
+                              title="Delete"
+                              placement="top-end"
+                            >
+                              <IconButton
+                                onClick={() => handleDelete(item)}
+                                sx={{ position: 'absolute', zIndex: 9 }}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                        </Box>
+                      </Grid>
+                    )
+                  }
+                })}
               </Grid>
             </Container>
           </Grid>
