@@ -136,14 +136,23 @@ function valuetext(value: number) {
 
 const ResultDetail = (props: Props) => {
   const predictions = useAppSelector(state => state.prediction.predictions)
+
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
-  const detections = [...predictions[props.title.substring(1)]['detections']]
-  const sortedList = detections.sort((a, b) => a.confidence - b.confidence)
+
+  const sortedList = [
+    ...predictions[props.title.substring(1)]['detections'],
+  ].sort((a, b) => a.confidence - b.confidence)
+  // const sortedList = detections.sort((a, b) => a.confidence - b.confidence)
   const [boundingBoxes, setBoundingBoxes] = useState(sortedList)
+
   const [count, setCount] = useState<number>(
     predictions[props.title.substring(1)]['count']
   )
   const [threshold, setThreshold] = useState<number>(0.26)
+  // const [sortedListAboveThreshold, setSortedListAboveThreshold] = useState(
+  //   sortedList.slice(threshold, boundingBoxes.length)
+  // )
+
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
 
@@ -228,6 +237,9 @@ const ResultDetail = (props: Props) => {
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     if (typeof newValue === 'number') {
       setThreshold(newValue)
+      // setSortedListAboveThreshold(
+      //   sortedList.slice(newVal, boundingBoxes.length)
+      // )
     }
   }
 
