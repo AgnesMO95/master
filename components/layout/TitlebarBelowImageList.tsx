@@ -102,7 +102,8 @@ export default function TitlebarBelowImageList(props: Props) {
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    {predictions[item.name]['count']}
+                    653
+                    {/* {predictions[item.name]['count']} */}
                     {/* {item.count} */}
                   </Typography>
                   <Typography>{item.name}</Typography>
