@@ -8,6 +8,9 @@ import theme from '../styles/theme'
 import createEmotionCache from '../lib/createEmotionCache'
 import MainNavigation from '../components/layout/MainNavigation'
 
+import { Provider } from 'react-redux'
+import { store } from '../redux/store'
+
 //client-side cahce, shared for the whole session of the user in the browser
 const clientSideEmotionCache = createEmotionCache()
 
@@ -27,7 +30,9 @@ function App(props: MyAppProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <MainNavigation />
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
       </ThemeProvider>
     </CacheProvider>
   )
