@@ -153,9 +153,6 @@ const ResultDetail = (props: Props) => {
     boundingBoxes.filter(f => f.confidence < threshold)
   )
 
-  const [osteoclasts, setOsteoclasts] = useState<boolean>(false)
-  const [slider, setSlider] = useState<boolean>(false)
-
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
 
@@ -249,20 +246,7 @@ const ResultDetail = (props: Props) => {
       await setThreshold(newValue)
       setCount(sortedListAboveThreshold.length)
       drawBoundingBoxes()
-
-      // kan bruke filter, så filtrer jeg ut de som er under threshold
-      // setSortedListAboveThreshold(
-      //   sortedList.slice(newVal, boundingBoxes.length)
-      // )
     }
-  }
-
-  const handleOsteoclasts = () => {
-    setOsteoclasts(true)
-  }
-  const handleSlider = () => {
-    setSlider(true)
-    console.log(slider)
   }
 
   return (
@@ -418,24 +402,6 @@ const ResultDetail = (props: Props) => {
           sx={{ top: 20, left: 500 }}
         >
           Save
-        </Button>
-        <Button
-          variant="outlined"
-          size="large"
-          endIcon={<Save />}
-          onChange={handleOsteoclasts}
-          sx={{ top: 20, left: 500 }}
-        >
-          list
-        </Button>
-        <Button
-          variant="outlined"
-          size="large"
-          endIcon={<Save />}
-          onChange={() => handleSlider}
-          sx={{ top: 20, left: 500 }}
-        >
-          slider
         </Button>
       </Container>
     </Fragment>
