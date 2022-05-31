@@ -148,10 +148,13 @@ const ResultDetail = (props: Props) => {
   const [count, setCount] = useState<number>(
     predictions[props.title.substring(1)]['count']
   )
-  const [threshold, setThreshold] = useState<number>(0.26)
-  // const [sortedListAboveThreshold, setSortedListAboveThreshold] = useState(
-  //   sortedList.slice(threshold, boundingBoxes.length)
-  // )
+  const [threshold, setThreshold] = useState<number>(0.25)
+  const [sortedListAboveThreshold, setSortedListAboveThreshold] = useState(
+    boundingBoxes.filter(f => f.confidence < threshold)
+  )
+
+  const [osteoclasts, setOsteoclasts] = useState<boolean>(false)
+  const [slider, setSlider] = useState<boolean>(false)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
@@ -179,11 +182,12 @@ const ResultDetail = (props: Props) => {
       console.log('ctx is null')
       return
     }
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     requestAnimationFrame(() => {
       drawRect(
         image.naturalWidth,
         image.naturalHeight,
-        0.2,
+        threshold,
         image.width,
         image.height,
         ctx
@@ -234,13 +238,31 @@ const ResultDetail = (props: Props) => {
     })
   }
 
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+  const handleSliderChange = async (
+    event: Event,
+    newValue: number | number[]
+  ) => {
     if (typeof newValue === 'number') {
-      setThreshold(newValue)
+      setSortedListAboveThreshold(
+        boundingBoxes.filter(f => f.confidence > newValue)
+      )
+      await setThreshold(newValue)
+      setCount(sortedListAboveThreshold.length)
+      drawBoundingBoxes()
+
+      // kan bruke filter, så filtrer jeg ut de som er under threshold
       // setSortedListAboveThreshold(
       //   sortedList.slice(newVal, boundingBoxes.length)
       // )
     }
+  }
+
+  const handleOsteoclasts = () => {
+    setOsteoclasts(true)
+  }
+  const handleSlider = () => {
+    setSlider(true)
+    console.log(slider)
   }
 
   return (
@@ -322,6 +344,7 @@ const ResultDetail = (props: Props) => {
           <Grid item xs={4}>
             <Container sx={{ maxHeight: 700, overflowY: 'scroll' }}>
               {/* kunne ha brukt react image list, kan da få image list item bar som tar in action */}
+
               <Grid container spacing={4} justifyContent="center">
                 {boundingBoxes.map(item => {
                   if (item.confidence > threshold) {
@@ -395,6 +418,24 @@ const ResultDetail = (props: Props) => {
           sx={{ top: 20, left: 500 }}
         >
           Save
+        </Button>
+        <Button
+          variant="outlined"
+          size="large"
+          endIcon={<Save />}
+          onChange={handleOsteoclasts}
+          sx={{ top: 20, left: 500 }}
+        >
+          list
+        </Button>
+        <Button
+          variant="outlined"
+          size="large"
+          endIcon={<Save />}
+          onChange={() => handleSlider}
+          sx={{ top: 20, left: 500 }}
+        >
+          slider
         </Button>
       </Container>
     </Fragment>
