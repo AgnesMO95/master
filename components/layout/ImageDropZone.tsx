@@ -20,7 +20,7 @@ const ImageDropZone = () => {
   const [files, setFiles] = useState<FileObject[]>([])
   const handleAdd = (newFiles: FileObject[]) => {
     newFiles.map(file => dispatch(addFileToList(file.file)))
-    newFiles.map(file => dispatch(addURLToList(URL.createObjectURL(file.file))))
+    //newFiles.map(file => dispatch(addURLToList(URL.createObjectURL(file.file))))
     const newFileList = files.concat(newFiles)
     setFiles(newFileList)
   }
