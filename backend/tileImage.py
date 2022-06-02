@@ -46,7 +46,6 @@ def tileImage(image):
     #     plt.imshow(image)
     #     plt.show()
 
-    print(len(results['detections']))
     results['count'] = len(results['detections'])
     return results
 
