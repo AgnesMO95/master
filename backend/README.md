@@ -52,7 +52,7 @@ Next activate the the environment
 If you use the command prompt use the command for windows:
 
 ```
-source venv/Scrips/activate venv
+source activate venv
 ```
 
 macOS/Linux:

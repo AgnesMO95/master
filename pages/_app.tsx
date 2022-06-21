@@ -8,6 +8,9 @@ import theme from '../styles/theme'
 import createEmotionCache from '../lib/createEmotionCache'
 import MainNavigation from '../components/layout/MainNavigation'
 
+import { Provider } from 'react-redux'
+import { store } from '../redux/store'
+
 //client-side cahce, shared for the whole session of the user in the browser
 const clientSideEmotionCache = createEmotionCache()
 
@@ -18,18 +21,20 @@ interface MyAppProps extends AppProps {
 function App(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <title>My page</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <MainNavigation />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </CacheProvider>
+    <Provider store={store}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <title>My page</title>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <MainNavigation />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </CacheProvider>
+    </Provider>
   )
 }
 
