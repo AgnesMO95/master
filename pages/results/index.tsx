@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 //import styles from '../../styles/Home.module.css'
-import TitlebarBelowImageList from '../../components/layout/TitlebarBelowImageList'
+import TitlebarBelowImageList from '../../components/results/ResultOverview'
 import styled from '@emotion/styled'
 
 const Div = styled.div`

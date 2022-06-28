@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import ResultDetail from '../../components/layout/ResultDetail'
+import ResultDetail from '../../components/results/ResultDetail'
 
 const resultDetails: NextPage = () => {
   return (
