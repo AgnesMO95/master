@@ -1,8 +1,43 @@
+# Master thesis
+
+## Table of content
+
+- [Repository Structure](#repository-structure)
+  - [Images](#images)
+  - [Sample Files](#sample-files)
+  - [Shimmer Scripts](#shimmer-scripts)
+  - [src](#src)
+- [Installation](#installation)
+  - [Clone Repository](#clone-repository)
+  - [Conda](#conda)
+  - [PIP](#pip)
+  - [LabRecorder](#labrecorder)
+- [Usage](#usage)
+  - [Linux](#linux)
+  - [Windows](#windows)
+  - [Run Experiment](#run-experiment)
+
+## Repository Structure
+
+### Images
+
+### Clone Repository
+
+In terminal of preference, go to directory you want the repository to be added. To clone the repository run the command:
+
+```
+git clone https://github.com/catthiba/project-thesis.git
+```
+
+Direct into the folder project-thesis, and then to the folder src.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+In order to run the application both the back-end server and the front-end development server must run. How to start the back-end server is explained in the back-end readme.
+
+Run the development server:
 
 ```bash
 npm run dev
