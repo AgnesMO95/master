@@ -32,7 +32,6 @@ const StyledImage = styled.img<IImageProps>`
 
 interface Props {
   image: string
-  title: string
 }
 
 interface detectionData {
@@ -72,15 +71,13 @@ const ResultDetail = (props: Props) => {
 
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
 
-  const sortedList = [
-    ...predictions[props.title.substring(1)]['detections'],
-  ].sort((a, b) => a.confidence - b.confidence)
+  const sortedList = [...predictions[props.image]['detections']].sort(
+    (a, b) => a.confidence - b.confidence
+  )
   // const sortedList = detections.sort((a, b) => a.confidence - b.confidence)
   const [boundingBoxes, setBoundingBoxes] = useState(sortedList)
 
-  const [count, setCount] = useState<number>(
-    predictions[props.title.substring(1)]['count']
-  )
+  const [count, setCount] = useState<number>(predictions[props.image]['count'])
   const [threshold, setThreshold] = useState<number>(0.25)
   const [sortedListAboveThreshold, setSortedListAboveThreshold] = useState(
     boundingBoxes.filter(f => f.confidence < threshold)
@@ -219,8 +216,8 @@ const ResultDetail = (props: Props) => {
                   </div>
                   <TransformComponent>
                     <img
-                      src={props.image}
-                      alt={props.title}
+                      src={'/' + props.image}
+                      alt={props.image}
                       width={'100%'}
                       z-index={8}
                       ref={imageRef}
@@ -280,8 +277,8 @@ const ResultDetail = (props: Props) => {
                               }}
                             >
                               <StyledImage
-                                src={props.image}
-                                alt={props.title}
+                                src={'/' + props.image}
+                                alt={props.image}
                                 x={item.x}
                                 y={item.y}
                                 z-index={8}
