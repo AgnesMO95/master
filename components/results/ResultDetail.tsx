@@ -19,12 +19,16 @@ import React from 'react'
 import DiscreteSliderLabel from '../ui/DiscreteSlider'
 import { RestartAlt, Save, ZoomIn, ZoomOut } from '@mui/icons-material'
 import { useAppSelector, useAppDispatch } from '../../redux/hooks'
+import Image from 'next/image'
+import Layout from '../layout/Layout'
 
 interface IImageProps {
   x: number
   y: number
 }
 
+//Emotion styling with next.js image component
+//const StyledImage = styled(Image)<IImageProps>
 const StyledImage = styled.img<IImageProps>`
   margin-left: -${props => props.x}px;
   margin-top: -${props => props.y}px;
@@ -68,6 +72,8 @@ function valuetext(value: number) {
 
 const ResultDetail = (props: Props) => {
   const predictions = useAppSelector(state => state.prediction.predictions)
+  const images = useAppSelector(state => state.imageFileList.images)
+  const image = images.filter(file => file.name == props.image)[0]
 
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
 
@@ -215,6 +221,11 @@ const ResultDetail = (props: Props) => {
                     </Button>
                   </div>
                   <TransformComponent>
+                    {/* <Image
+                      src={URL.createObjectURL(image)}
+                      alt=""
+                      layout="fill"
+                    /> */}
                     <img
                       src={'/' + props.image}
                       alt={props.image}
@@ -276,6 +287,15 @@ const ResultDetail = (props: Props) => {
                                 //position: 'absolute',
                               }}
                             >
+                              {/* <StyledImage
+                                src={'/' + props.image} //{URL.createObjectURL(image)}
+                                alt={props.image}
+                                layout="fill"
+                                x={item.x}
+                                y={item.y}
+                                z-index={8}
+                                // style={{ top: '450', left: '1320' }}
+                              /> */}
                               <StyledImage
                                 src={'/' + props.image}
                                 alt={props.image}
