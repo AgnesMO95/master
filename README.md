@@ -1,39 +1,66 @@
 # Master thesis
 
+This project is part of my master thesis, where the goal was to create a proof of concept for an application that count Osteoclasts by utilizing a deep learning algorithm. The project is created using the Next.js framework together with typescript.
+
 ## Table of content
 
 - [Repository Structure](#repository-structure)
-  - [Images](#images)
-  - [Sample Files](#sample-files)
-  - [Shimmer Scripts](#shimmer-scripts)
-  - [src](#src)
+  - [Backend](#backend)
+  - [Bomponents](#components)
+  - [Pages](#pages)
+  - [Public](#public)
+  - [Redux](#redux)
+  - [Styles](#styles)
 - [Installation](#installation)
   - [Clone Repository](#clone-repository)
-  - [Conda](#conda)
-  - [PIP](#pip)
-  - [LabRecorder](#labrecorder)
-- [Usage](#usage)
-  - [Linux](#linux)
-  - [Windows](#windows)
-  - [Run Experiment](#run-experiment)
+- [Run the application](#run-application)
+- [Contribute](#contribute)
 
 ## Repository Structure
 
-### Images
+### Backend
+
+This folder contains the backend code for this repository and is described further in the backend readme
+
+### Components
+
+This folder contains the different components in the project, such as the navigation bar, buttons and components for the different view
+
+### Pages
+
+This folder contains the different pages this application exist of
+
+### Public
+
+This folder contains the static files for this project
+
+### Redux
+
+This folder contains code for handling the Global state, that is implemented with Redux toolkit
+
+### Styles
+
+This folder contains the for the application wher Material UI v5 (MUI) is used
+
+## Installation
+
+In order to run the application the project needs to be cloned and the dependencies needs to be installed by a package manager, in the project npm is used. The application is only tested at windows.
 
 ### Clone Repository
 
 In terminal of preference, go to directory you want the repository to be added. To clone the repository run the command:
 
 ```
-git clone https://github.com/catthiba/project-thesis.git
+git clone https://github.com/AgnesMO95/master.git
 ```
 
-Direct into the folder project-thesis, and then to the folder src.
+Direct into the folder oc_counter, and run:
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+```
+npm install
+```
 
-## Getting Started
+## Run the application
 
 In order to run the application both the back-end server and the front-end development server must run. How to start the back-end server is explained in the back-end readme.
 
@@ -45,25 +72,8 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. In order to see the detailed view, the image used need to be uploaded in the public folder, as the application cannot handle the sie of the image in that viwe
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Contribute
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+In order to contribute to the application create a branch from develop, called the tasks name and commit with explainatory messages and request a merge to the development branch.
