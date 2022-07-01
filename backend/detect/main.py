@@ -8,7 +8,7 @@ from .detect import runModel
 
 confthres=0.25
 nmsthres=0.5
-yolo_path=".\yolov4darknet"
+yolo_path="../yolov4darknet"
 
 def get_labels(labels_path):
     # load the COCO class labels our YOLO model was trained on
