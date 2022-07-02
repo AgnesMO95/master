@@ -33,7 +33,6 @@ const ImageDropZone = () => {
     const formData = new FormData()
     //change files[0].file to images in order to send multiple images to backend
     files.map(file => formData.append('files', file.file))
-    //formData.append('files', files[0].file)
     const response = await fetch(`http://127.0.0.1:5000/detect`, {
       method: 'POST',
       body: formData,
@@ -44,13 +43,12 @@ const ImageDropZone = () => {
       dispatch(addPredictions(res))
     })
     console.log(predictions)
-    //await router.push('/results')
+    await router.push('/results')
   }
 
   const handleCancel = () => {
-    router.push('/results')
+    //router.push('/')
   }
-  //console.log(predictions)
   return (
     <DropzoneDialogBase
       open={true}
