@@ -19,28 +19,23 @@ import React from 'react'
 import DiscreteSliderLabel from '../ui/DiscreteSlider'
 import { RestartAlt, Save, ZoomIn, ZoomOut } from '@mui/icons-material'
 import { useAppSelector, useAppDispatch } from '../../redux/hooks'
+import Image from 'next/image'
+import Layout from '../layout/Layout'
 
 interface IImageProps {
   x: number
   y: number
 }
 
+//Emotion styling with next.js image component
+//const StyledImage = styled(Image)<IImageProps>
 const StyledImage = styled.img<IImageProps>`
-  //width: 100px;
-  //margin-top: 10px;
-  //position: static;
-  //top: 200px;
-  //overflow: scroll;
-  //width: 100px;
-  /* top: 2000;
-  left: 2000; */
   margin-left: -${props => props.x}px;
   margin-top: -${props => props.y}px;
 `
 
 interface Props {
   image: string
-  title: string
 }
 
 interface detectionData {
@@ -51,65 +46,6 @@ interface detectionData {
   w: number
   h: number
 }
-
-const detection = [
-  {
-    label: 'Osteoclast',
-    confidence: 0.5676062107086182,
-    x: 1089,
-    y: 2835,
-    w: 97,
-    h: 79,
-  },
-  {
-    label: 'Osteoclast',
-    confidence: 0.3166319727897644,
-    x: 1106,
-    y: 4177,
-    w: 108,
-    h: 109,
-  },
-  {
-    label: 'Osteoclast',
-    confidence: 0.5859971642494202,
-    x: 1401,
-    y: 3159,
-    w: 105,
-    h: 103,
-  },
-  {
-    label: 'Osteoclast',
-    confidence: 0.44125014543533325,
-    x: 1398,
-    y: 3459,
-    w: 102,
-    h: 102,
-  },
-  {
-    label: 'Osteoclast',
-    confidence: 0.3947586715221405,
-    x: 1370,
-    y: 5477,
-    w: 98,
-    h: 95,
-  },
-  {
-    label: 'Osteoclast',
-    confidence: 0.30254414677619934,
-    x: 1404,
-    y: 5697,
-    w: 109,
-    h: 102,
-  },
-  {
-    label: 'Osteoclast',
-    confidence: 0.31677988171577454,
-    x: 1275,
-    y: 6655,
-    w: 109,
-    h: 53,
-  },
-]
 
 const marks = [
   {
@@ -136,18 +72,18 @@ function valuetext(value: number) {
 
 const ResultDetail = (props: Props) => {
   const predictions = useAppSelector(state => state.prediction.predictions)
+  const images = useAppSelector(state => state.imageFileList.images)
+  const image = images.filter(file => file.name == props.image)[0]
 
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
 
-  const sortedList = [
-    ...predictions[props.title.substring(1)]['detections'],
-  ].sort((a, b) => a.confidence - b.confidence)
+  const sortedList = [...predictions[props.image]['detections']].sort(
+    (a, b) => a.confidence - b.confidence
+  )
   // const sortedList = detections.sort((a, b) => a.confidence - b.confidence)
   const [boundingBoxes, setBoundingBoxes] = useState(sortedList)
 
-  const [count, setCount] = useState<number>(
-    predictions[props.title.substring(1)]['count']
-  )
+  const [count, setCount] = useState<number>(predictions[props.image]['count'])
   const [threshold, setThreshold] = useState<number>(0.25)
   const [sortedListAboveThreshold, setSortedListAboveThreshold] = useState(
     boundingBoxes.filter(f => f.confidence < threshold)
@@ -218,18 +154,9 @@ const ResultDetail = (props: Props) => {
         ctx.font = '7px Arial'
         //draw
         ctx.beginPath()
-        // ctx.fillText(
-        //   text + ' - ' + Math.round(item.confidence * 100) / 100,
-        //   x * imgWidth,
-        //   y * imgHeight - 2
-        // )
+
         //convert from % to px
-        ctx.rect(
-          x * imgWidth,
-          y * imgHeight,
-          w * imgWidth, //- x * imgWidth, // width of rect
-          h * imgHeight //- y * imgHeight
-        )
+        ctx.rect(x * imgWidth, y * imgHeight, w * imgWidth, h * imgHeight)
         ctx.stroke()
       }
     })
@@ -294,9 +221,14 @@ const ResultDetail = (props: Props) => {
                     </Button>
                   </div>
                   <TransformComponent>
+                    {/* <Image
+                      src={URL.createObjectURL(image)}
+                      alt=""
+                      layout="fill"
+                    /> */}
                     <img
-                      src={props.image}
-                      alt={props.title}
+                      src={'/' + props.image}
+                      alt={props.image}
                       width={'100%'}
                       z-index={8}
                       ref={imageRef}
@@ -355,9 +287,18 @@ const ResultDetail = (props: Props) => {
                                 //position: 'absolute',
                               }}
                             >
+                              {/* <StyledImage
+                                src={'/' + props.image} //{URL.createObjectURL(image)}
+                                alt={props.image}
+                                layout="fill"
+                                x={item.x}
+                                y={item.y}
+                                z-index={8}
+                                // style={{ top: '450', left: '1320' }}
+                              /> */}
                               <StyledImage
-                                src={props.image}
-                                alt={props.title}
+                                src={'/' + props.image}
+                                alt={props.image}
                                 x={item.x}
                                 y={item.y}
                                 z-index={8}
