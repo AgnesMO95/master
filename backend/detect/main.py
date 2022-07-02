@@ -55,15 +55,7 @@ def detect_image(img_patches, indices, nets, labels):
                 detection['w'] = item.get('w')
                 detection['h'] = item.get('h')
                 results['detections'].append(detection)
-                #print(x, y)
-            #print(indices[i][0])
         i += 1
-        #print(outputs)
-        #cv2.imshow('image', image)
-        #cv2.waitKey(0)
-    #     plt.figure()
-    #     plt.imshow(image)
-    #     plt.show()
 
     print(len(results['detections']))
     results['count'] = len(results['detections'])
@@ -88,10 +80,7 @@ def detect_images(files, nets, labels):
     return results
 
 def makeDetections(files):
-    # load our input image and grab its spatial dimensions
-    #print(img)
-    #image = cv2.imread(img)
-    #print(image)
+
     labelsPath="C:/Users/agnes/var-master/webapp/oc_counter/backend/yolov4darknet/obj.names"
     cfgpath="C:/Users/agnes/var-master/webapp/oc_counter/backend/yolov4darknet/cfg/yolov4_custom.cfg"
     wpath="C:/Users/agnes/var-master/webapp/oc_counter/backend/yolov4darknet/custom.weights"
@@ -99,6 +88,5 @@ def makeDetections(files):
 
     nets=load_model(cfgpath,wpath)
     results = detect_images(files, nets, Lables)
-    #res=get_predection(image,nets,Lables,Colors)
-    #print(res.get('detections'))
+
     return results
